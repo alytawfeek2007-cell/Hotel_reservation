@@ -7,12 +7,61 @@ public class Guest{
     private LocalDate dateOfBirth;
     private double balance;
     private String address;
+    private Gender gender; 
+    private String roomPreferences;
+
+
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+    public double getBalance() {
+        return balance;
+    }
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public enum Gender {
     MALE,
     FEMALE
 }
-    private Gender gender; 
-    private List<String> roomPreferences;
+    
+    
 
+    public void setgender(Gender gender){
+        this.gender=gender;
+    }
+    public Gender getgender(){
+        return gender;
+    }
+    
+    public String getroomPreferences() {
+        return roomPreferences;
+    }
+    public void setroomPreferences(String roomPreferences) {
+        this.roomPreferences = roomPreferences;
+    }
+
+    
 }
 
