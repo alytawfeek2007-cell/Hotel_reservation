@@ -30,8 +30,9 @@ public class RoomType {
         return pricePerNight;
     }
 
-    public void setPricePerNight(double pricePerNight) {
-        this.pricePerNight = pricePerNight;
+    public void setPricePerNight(double pricePerNight) throws InvalidPaymentException {
+    if (pricePerNight < 0) {
+        throw new InvalidPaymentException("Price per night cannot be negative. Attempted: " + pricePerNight);
     }
-
+    }
 }
