@@ -26,9 +26,10 @@ public class Guest{
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+    public void setDateOfBirth(LocalDate dateOfBirth) throws InvalidUserDataException {
+     if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {
+         throw new InvalidUserDataException("Date of birth cannot be in the future.");
+     }
     public double getBalance() {
         return balance;
     }
