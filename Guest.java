@@ -14,9 +14,12 @@ public class Guest{
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) throws InvalidUserDataException {
+      if (username == null || username.trim().isEmpty()) {
+          throw new InvalidUserDataException("Username cannot be empty or null.");
+      }
+      this.username = username;
+  }
     public String getPassword() {
         return password;
     }
@@ -26,15 +29,19 @@ public class Guest{
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+    public void setDateOfBirth(LocalDate dateOfBirth) throws InvalidUserDataException {
+     if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {
+         throw new InvalidUserDataException("Date of birth cannot be in the future.");
+     }
     public double getBalance() {
         return balance;
     }
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+   public void setBalance(double balance) throws InvalidPaymentException {
+     if (balance < 0) {
+         throw new InvalidPaymentException("Balance cannot be negative: " + balance);
+     }
+     this.balance = balance;
+ }
     public String getAddress() {
         return address;
     }
