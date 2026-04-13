@@ -17,7 +17,11 @@ public class Amenity {
    public double getPrice() {
     return price;
    }
-   public void setPrice(double price) {
+   
+public void setPrice(double price) throws InvalidPaymentException {
+    if (price < 0) {
+        throw new InvalidPaymentException("Price cannot be negative.");
+    }
     this.price = price;
-   }
 }
+
