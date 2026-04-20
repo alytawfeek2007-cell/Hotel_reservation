@@ -54,4 +54,12 @@ public class Invoice implements Payable {
     public double getBalance() {
         return balance;
     }
+
+    public void setPaymentDate(LocalDate paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+        this.paymentMethods = paymentMethods;
+    }
 }
