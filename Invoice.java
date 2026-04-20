@@ -30,4 +30,8 @@ public class Invoice {
     public List<PaymentMethod> getPaymentMethods() {
         return paymentMethods;
     }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }
