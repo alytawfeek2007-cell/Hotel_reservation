@@ -8,14 +8,14 @@ public class Room {
     private boolean isAvailable = true;
 
     public Room(String roomNumber, RoomType type) {
-    this.roomNumber = roomNumber;
-    this.type = type;
-    this.amenities = new ArrayList<>();
+        this.roomNumber = roomNumber;
+        this.type = type;
+        this.amenities = new ArrayList<>();
     }
 
     public RoomType getType() {
         return type;
-    }
+    }   
     public void setType(RoomType type) {
         this.type = type;
     }
@@ -34,12 +34,20 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public boolean IsAvailable() {
+    public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
+    public void setAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public void bookRoom() throws RoomNotAvailableException {
+        if (!isAvailable) {
+            throw new RoomNotAvailableException("Room " + roomNumber + " is already occupied.");
+        }
+        this.isAvailable = false;
+        System.out.println("Room " + roomNumber + " has been successfully booked.");
     }
 
 }
