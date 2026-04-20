@@ -7,50 +7,85 @@ public abstract class Staff {
     private LocalDate dateOfBirth;
     private Role role;
     public enum Role {
-     Admin,
-      Receptionist
+    ADMIN,
+      RECEPTIONIST
     }
      private int workingHours;
 
     
     public Staff(String username, String password, LocalDate dateOfBirth, Staff.Role role, int workingHours) {
-        Username = username;
-        Password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.role = role;
-        this.workingHours = workingHours;
+        this.Username = validateUsername(username);
+        this.Password = validatePassword(password);
+        this.dateOfBirth = validateDateOfBirth(dateOfBirth);
+        this.role = validateRole(role);
+        this.workingHours = validateWorkingHours(workingHours);
     }
    
     public String getUsername() {
         return Username;
     }
     public void setUsername(String username) {
-        Username = username;
+        Username = validateUsername(username);
     }
     public String getPassword() {
         return Password;
     }
     public void setPassword(String password) {
-        Password = password;
+        Password = validatePassword(password);
     }
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
     public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = validateDateOfBirth(dateOfBirth);
     }
     public Role getRole() {
         return role;
     }
     public void setRole(Role role) {
-        this.role = role;
+        this.role = validateRole(role);
     }
     
     public int getWorkingHours() {
         return workingHours;
     }
     public void setWorkingHours(int workingHours) {
-        this.workingHours = workingHours;
+        this.workingHours = validateWorkingHours(workingHours);
+    }
+
+    private String validateUsername(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty.");
+        }
+        return username;
+    }
+
+    private String validatePassword(String password) {
+        if (password == null || password.length() < 6) {
+            throw new IllegalArgumentException("Password must be at least 6 characters long.");
+        }
+        return password;
+    }
+
+    private LocalDate validateDateOfBirth(LocalDate dateOfBirth) {
+        if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Date of birth is invalid.");
+        }
+        return dateOfBirth;
+    }
+
+    private Role validateRole(Role role) {
+        if (role == null) {
+            throw new IllegalArgumentException("Role cannot be null.");
+        }
+        return role;
+    }
+
+    private int validateWorkingHours(int workingHours) {
+        if (workingHours < 0) {
+            throw new IllegalArgumentException("Working hours cannot be negative.");
+        }
+        return workingHours;
     }
 
     public void viewAllGuests(List<Guest> guests) {

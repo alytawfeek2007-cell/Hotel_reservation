@@ -6,6 +6,10 @@ public class Receptionist extends Staff{
     }
 
      public void checkIn(Guest guest, Room room, LocalDate checkInDate) {
+        if (checkInDate == null) {
+            System.out.println("Check-in failed: invalid date.");
+            return;
+        }
         if (!room.IsAvailable()) {
             System.out.println("Room " + room.getRoomNumber() + " is not available.");
             return;
@@ -17,10 +21,13 @@ public class Receptionist extends Staff{
     }
 
     public void checkOut(Guest guest, Room room, LocalDate checkOutDate) {
+        if (checkOutDate == null) {
+            System.out.println("Check-out failed: invalid date.");
+            return;
+        }
         room.setIsAvailable(true);
         System.out.println("Guest " + guest.getUsername() +
                 " checked out of room " + room.getRoomNumber() +
                 " on " + checkOutDate);
     }
-}
 }

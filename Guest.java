@@ -25,10 +25,10 @@ public class Guest{
     public Guest(String username, String password, LocalDate dateOfBirthParam, double balance, String address, Gender gender)  {
         this.setUsername(username);
         this.setPassword(password);
-        this.dateOfBirth = dateOfBirthParam;
-        this.balance = balance;
-        this.address = address;
-        this.gender = gender;
+        this.setDateOfBirth(dateOfBirthParam);
+        this.setBalance(balance);
+        this.setAddress(address);
+        this.setGender(gender);
         this.roomPreferences = new ArrayList<>();
     }
 
@@ -36,10 +36,10 @@ public class Guest{
 
         this.setUsername(username);
         this.setPassword(password);
-        this.dateOfBirth = dateOfBirthParam;
-        this.balance = balance;
-        this.address = address;
-        this.gender = gender;
+        this.setDateOfBirth(dateOfBirthParam);
+        this.setBalance(balance);
+        this.setAddress(address);
+        this.setGender(gender);
         this.roomPreferences = new ArrayList<>();
         this.roomPreferences.add(roomPreference);
     }
@@ -70,16 +70,25 @@ public class Guest{
         return balance;
     }
     public void setBalance(double balance) {
+        if (balance < 0) {
+            throw new IllegalArgumentException("Balance cannot be negative.");
+        }
         this.balance = balance;
     }
     public String getAddress() {
         return address;
     }
     public void setAddress(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address cannot be empty.");
+        }
         this.address = address;
     }
    
     public void setGender(Gender gender) {
+         if (gender == null) {
+            throw new IllegalArgumentException("Gender cannot be null.");
+        }
          this.gender = gender; 
         }
     public Gender getGender() {
@@ -90,12 +99,18 @@ public class Guest{
         return roomPreferences;
     }
     public void setRoomPreferences(List<String> roomPreferences) {
+        if (roomPreferences == null) {
+            throw new IllegalArgumentException("Room preferences list cannot be null.");
+        }
         this.roomPreferences = roomPreferences;
     }
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
     public void setDateOfBirth(LocalDate dateOfBirth) {
+        if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Date of birth is invalid.");
+        }
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -108,7 +123,12 @@ public class Guest{
         System.out.println("Registration failed: password too short.");
         return;
         }
-        System.out.println("Guest " + username + " registered successfully.");
+        try {
+            HotelDatabase.addGuest(this);
+            System.out.println("Guest " + username + " registered successfully.");
+        } catch (InvalidUserDataException e) {
+            System.out.println("Registration failed: " + e.getMessage());
+        }
     }
     
     public boolean login(String username, String password){
@@ -137,6 +157,14 @@ public class Guest{
     }
 
     public void makeReservation(String roomNumber, LocalDate checkIn, LocalDate checkOut) {
+        if (roomNumber == null || roomNumber.trim().isEmpty()) {
+            System.out.println("Reservation failed: room number is invalid.");
+            return;
+        }
+        if (checkIn == null || checkOut == null || !checkOut.isAfter(checkIn)) {
+            System.out.println("Reservation failed: date range is invalid.");
+            return;
+        }
 
         String reservationId = roomNumber + "_" + checkIn + "_" + checkOut;
         reservations.add(reservationId);
@@ -163,6 +191,10 @@ public class Guest{
 }
 
 public void checkoutAndPay(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid payment amount.");
+            return;
+        }
         if (this.balance >= amount) {
             this.balance -= amount;
             System.out.println("Payment of " + amount + " successful. Remaining balance: " + this.balance);
