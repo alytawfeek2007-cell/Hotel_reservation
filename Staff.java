@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.List;
 
 public abstract class Staff {
     private String Username;
@@ -7,8 +8,9 @@ public abstract class Staff {
     private Role role;
     public enum Role {
      Admin,
-      RECEPTIONIST
+      Receptionist
     }
+     private int workingHours;
 
     
     public Staff(String username, String password, LocalDate dateOfBirth, Staff.Role role, int workingHours) {
@@ -18,7 +20,7 @@ public abstract class Staff {
         this.role = role;
         this.workingHours = workingHours;
     }
-    private int workingHours;
+   
     public String getUsername() {
         return Username;
     }
@@ -50,4 +52,35 @@ public abstract class Staff {
     public void setWorkingHours(int workingHours) {
         this.workingHours = workingHours;
     }
+
+    public void viewAllGuests(List<Guest> guests) {
+        if (guests == null || guests.isEmpty()) {
+            System.out.println("No guests found.");
+        } else {
+            System.out.println("All guests:");
+            for (Guest g : guests)
+                System.out.println(" - " + g.getUsername());
+        }
+    }
+
+    public void viewAllRooms(List<Room> rooms) {
+        if (rooms == null || rooms.isEmpty()) {
+            System.out.println("No rooms found.");
+        } else {
+            System.out.println("All rooms:");
+            for (Room r : rooms)
+                System.out.println(" - Room " + r.getRoomNumber());
+        }
+    }
+
+    public void viewAllReservations(List<String> reservations) {
+        if (reservations == null || reservations.isEmpty()) {
+            System.out.println("No reservations found.");
+        } else {
+            System.out.println("All reservations:");
+            for (String res : reservations)
+                System.out.println(" - " + res);
+        }
+    }
+}
 }
