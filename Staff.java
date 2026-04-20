@@ -73,14 +73,18 @@ public abstract class Staff {
         }
     }
 
-    public void viewAllReservations(List<String> reservations) {
-        if (reservations == null || reservations.isEmpty()) {
-            System.out.println("No reservations found.");
-        } else {
-            System.out.println("All reservations:");
-            for (String res : reservations)
-                System.out.println(" - " + res);
-        }
+    public void viewAllReservations(List<Reservation> reservations) {
+    if (reservations == null || reservations.isEmpty()) {
+        System.out.println("No reservations found.");
+    } else {
+         System.out.println("All reservations:");
+            for (Reservation res : reservations)
+            System.out.println(" Guest: " + res.getGuest().getUsername() +"  Room: " + res.getRoom().getRoomNumber() +" Check-in: " + res.getCheckInDate() +" Check-out: " + res.getCheckOutDate() +" Status: " + res.getStatus());
     }
+
 }
+
+
+
 }
+

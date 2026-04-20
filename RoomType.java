@@ -1,23 +1,16 @@
 public class RoomType {
    private int capacity;
-   private String description;
+   private String typeName;
    private double pricePerNight;
-    private boolean isOccupied = false;
+    
 
-    public RoomType(int capacity, String description, double pricePerNight, boolean isOccupied) {
+    public RoomType(int capacity, String typeName, double pricePerNight) {
         this.capacity = capacity;
-        this.description = description;
+        this.typeName = typeName;
         this.pricePerNight = pricePerNight;
-       this.isOccupied = isOccupied;
+       
     }
- public void bookRoom() throws RoomNotAvailableException {
-     if (this.isOccupied) {
-         throw new RoomNotAvailableException("Room is already occupied.");
-     }
-     
-     this.isOccupied = true;
-     System.out.println("Room has been successfully booked.");
- }
+ 
 
    public int getCapacity() {
     return capacity;
@@ -27,12 +20,12 @@ public class RoomType {
     this.capacity = capacity;
    }
 
-    public String getDescription() {
-        return description;
+    public String gettypeName() {
+        return typeName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void settypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public double getPricePerNight() {
