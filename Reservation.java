@@ -25,24 +25,19 @@ public class Reservation {
     public LocalDate getCheckOutDate() { return checkOutDate; }
     public ReservationStatus getStatus() { return status; }
 
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void confirm() {
+        if (status != ReservationStatus.PENDING) return;
+        this.status = ReservationStatus.CONFIRMED;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void cancel() {
+        if (status == ReservationStatus.COMPLETED) return;
+        this.status = ReservationStatus.CANCELLED;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public void setCheckOutDate(LocalDate checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
+    public void complete() {
+        if (status != ReservationStatus.CONFIRMED) return;
+        this.status = ReservationStatus.COMPLETED;
     }
 
     @Override
