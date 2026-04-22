@@ -49,29 +49,35 @@ public class Guest{
         return username;
     }
 
-    public void setUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
-        throw new IllegalArgumentException("Username cannot be empty or null.");
+ public void setUsername(String username) throws InvalidUserDataException {
+    if (username == null || username.trim().isEmpty()) {
+        throw new InvalidUserDataException("Username cannot be empty or null.");
     }
     this.username = username;
+}
+
 }
     public String getPassword() {
         return password;
     }
-    public void setPassword(String password) {
-        if (password != null && password.length() >= 6) {
-            this.password = password;
-        } else {
-            throw new IllegalArgumentException("Password must be at least 6 characters long.");
-        }  
-    }
-    
+    public void setPassword(String password) throws InvalidPasswordException {
+    if (password != null && password.length() >= 6) {
+        this.password = password;
+    } else {
+        throw new InvalidPasswordException("Password must be at least 6 characters long.");
+    }  
+}
+
     public double getBalance() {
         return balance;
     }
-    public void setBalance(double balance) {
-        this.balance = balance;
+   public void setBalance(double balance) throws InvalidPaymentException {
+    if (balance < 0) {
+        throw new InvalidPaymentException("Balance cannot be negative.");
     }
+    this.balance = balance;
+}
+
     public String getAddress() {
         return address;
     }
@@ -125,16 +131,17 @@ public class Guest{
         return checking;
     }
     
-    public void viewAvailableRooms(List<String> availableRooms) {
-        if (availableRooms == null || availableRooms.isEmpty()) {
-        System.out.println("No rooms are currently available.");
-        } else {
-            System.out.println("Available rooms:");
+ public void viewAvailableRooms(List<String> availableRooms) throws RoomNotAvailableException {
+    if (availableRooms == null || availableRooms.isEmpty()) {
+        throw new RoomNotAvailableException("No rooms are currently available.");
+    } else {
+        System.out.println("Available rooms:");
         for (String room : availableRooms) {
             System.out.println("Room number: " + room);
         }
     }
-    }
+}
+
 
     public void makeReservation(String roomNumber, LocalDate checkIn, LocalDate checkOut) {
 
@@ -170,4 +177,3 @@ public void checkoutAndPay(double amount) {
             System.out.println("Insufficient balance. Payment failed.");
         }
     }
-}
