@@ -4,12 +4,12 @@ public class RoomType {
    private double pricePerNight;
     
 
-    public RoomType(int capacity, String typeName, double pricePerNight) {
-        this.capacity = capacity;
-        this.typeName = typeName;
-        this.pricePerNight = pricePerNight;
-       
+    public RoomType(String typeName, int capacity, double pricePerNight) {
+        setTypeName(typeName);
+        setCapacity(capacity);
+        setPricePerNight(pricePerNight);
     }
+
  
 
    public int getCapacity() {
@@ -17,15 +17,21 @@ public class RoomType {
    }
 
    public void setCapacity(int capacity) {
-    this.capacity = capacity;
-   }
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 0.");
+        }
+        this.capacity = capacity;
+    }
 
-    public String gettypeName() {
+    public String getTypeName() {
         return typeName;
     }
 
-    public void settypeName(String typeName) {
-        this.typeName = typeName;
+    public void setTypeName(String typeName) {
+        if (typeName == null || typeName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Room type name cannot be empty.");
+        }
+        this.typeName = typeName.trim();
     }
 
     public double getPricePerNight() {
@@ -33,12 +39,16 @@ public class RoomType {
     }
 
 
-  public void setPricePerNight(double pricePerNight) throws InvalidPaymentException {
-    if (pricePerNight < 0) {
-        throw new InvalidPaymentException("Price per night cannot be negative. Attempted: " + pricePerNight);
+ public void setPricePerNight(double pricePerNight) {
+        if (pricePerNight < 0) {
+            throw new IllegalArgumentException("Price per night cannot be negative.");
+        }
+        this.pricePerNight = pricePerNight;
     }
-    this.pricePerNight = pricePerNight;
+
+ @Override
+    public String toString() {
+        return "RoomType{name='" + typeName + "', capacity=" + capacity + ", pricePerNight=" + pricePerNight + "}";
+    }
 }
 
-
-}

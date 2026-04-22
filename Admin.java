@@ -18,7 +18,7 @@ public class Admin extends Staff {
 
      public void updateRoom(List<Room> rooms, int roomNumber, Room updatedRoom) {
         for (int i = 0; i < rooms.size(); i++) {
-            if (rooms.get(i).getRoomNumber().equals(roomNumber)) {
+            if (rooms.get(i).getRoomNumber().equals(String.valueOf(roomNumber))) {
                 rooms.set(i, updatedRoom);
                 System.out.println("Room " + roomNumber + " updated.");
                 return;
@@ -40,11 +40,33 @@ public class Admin extends Staff {
 
     public void addRoomType(List<RoomType> roomTypes, RoomType roomType) {
         roomTypes.add(roomType);
-        System.out.println("RoomType " + roomType.gettypeName() + " added.");
+        System.out.println("RoomType " + roomType.getTypeName() + " added.");
     }
 
     public void removeRoomType(List<RoomType> roomTypes, String typeName) {
-        roomTypes.removeIf(rt -> rt.gettypeName().equals(typeName));
+        roomTypes.removeIf(rt -> rt.getTypeName().equals(typeName));
         System.out.println("RoomType " + typeName + " removed.");
+    }
+
+    public void updateRoomType(List<RoomType> roomTypes, String typeName, RoomType updatedType) {
+        for (int i = 0; i < roomTypes.size(); i++) {
+            if (roomTypes.get(i).getTypeName().equals(typeName)) {
+                roomTypes.set(i, updatedType);
+                System.out.println("RoomType " + typeName + " updated.");
+                return;
+            }
+        }
+        System.out.println("RoomType " + typeName + " not found.");
+    }
+
+    public void updateAmenity(List<Amenity> amenities, String amenityName, Amenity updatedAmenity) {
+        for (int i = 0; i < amenities.size(); i++) {
+            if (amenities.get(i).getName().equals(amenityName)) {
+                amenities.set(i, updatedAmenity);
+                System.out.println("Amenity " + amenityName + " updated.");
+                return;
+            }
+        }
+        System.out.println("Amenity " + amenityName + " not found.");
     }
 }

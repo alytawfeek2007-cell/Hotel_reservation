@@ -44,4 +44,15 @@ public class Reservation {
     public void setStatus(ReservationStatus status) {
         this.status = status;
     }
+
+    @Override
+        public String toString() {
+            return "Reservation{" +
+                "guest='" + guest.getUsername() + '\'' +
+                " | room=" + room.getRoomNumber() +
+                " | checkIn=" + checkInDate +
+                " | checkOut=" + checkOutDate +
+                " | status=" + status +
+                '}';
+        }
 }

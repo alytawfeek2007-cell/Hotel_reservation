@@ -75,16 +75,16 @@ public class HotelDatabase {
     // --- Pre-population ---
     private static void prePopulate() {
         try {
-            Guest g1 = new Guest("jdoe", "pass123", LocalDate.of(1990, 5, 15), 500.0, "123 Maple St", Gender.MALE, "High floor");
-            Guest g2 = new Guest("asmith", "secure456", LocalDate.of(1985, 10, 20), 1200.0, "456 Oak Ave", Gender.FEMALE, "Near elevator");
+            Guest g1 = new Guest("jdoe", "pass123", LocalDate.of(1990, 5, 15), 500.0, "123 Maple St", Guest.Gender.MALE, "High floor");
+            Guest g2 = new Guest("asmith", "secure456", LocalDate.of(1985, 10, 20), 1200.0, "456 Oak Ave", Guest.Gender.FEMALE, "Near elevator");
             addGuest(g1);
             addGuest(g2);
 
-            RoomType suiteType = new RoomType(4, "Luxury Suite", 250.0);
-            RoomType singleType = new RoomType(1, "Single Cozy", 85.0);
+            RoomType suiteType = new RoomType("Luxury Suite", 4, 250.0);
+            RoomType singleType = new RoomType("Single Cozy", 1, 85.0);
 
-            Room r101 = new Room(101, suiteType);
-            Room r202 = new Room(202, singleType);
+            Room r101 = new Room("101", suiteType);
+            Room r202 = new Room("202", singleType);
             addRoom(r101);
             addRoom(r202);
 
