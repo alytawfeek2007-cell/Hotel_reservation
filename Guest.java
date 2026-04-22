@@ -132,6 +132,7 @@ public class Guest{
     }
 
    public void makeReservation(Reservation reservation) {
+    reservation.confirm();
     reservations.add(reservation);
     System.out.println("Reservation made for room " + 
                        reservation.getRoom().getRoomNumber());
@@ -150,7 +151,7 @@ public class Guest{
 
     public void cancelReservation(Reservation reservation) {
     if (reservations.remove(reservation)) {
-        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservation.cancel();
         reservation.getRoom().setAvailable(true);
     } else {
         System.out.println("Reservation " + reservation + " not found.");
