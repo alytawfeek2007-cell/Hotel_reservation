@@ -1,48 +1,48 @@
-public class Amenity {
-   private String name;
-   private String description;
-   private double extraPricePerNight;
+public class Amenity implements Manageable {
+    private String name;
+    private String description;
+    private double price;
 
-    public Amenity(String name, String description, double extraPricePerNight) {
-        setName(name);
-        setDescription(description);
-        setExtraPricePerNight(extraPricePerNight);
+    public String getName() {
+        return name;
     }
-
-   public String getName() {
-    return name;
-   }
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Amenity name cannot be empty.");
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) throws InvalidPaymentException {
+        if (price < 0) {
+            throw new InvalidPaymentException("Price cannot be negative. Provided value: " + price);
         }
-        this.name = name.trim();
+        this.price = price;
     }
 
-
-   public String getDescription() {
-    return description;
-   }
-   public void setDescription(String description) {
-        this.description = (description == null) ? "" : description.trim();
+    // --- Manageable interface methods ---
+    @Override
+    public void create() {
+        System.out.println("Amenity created: " + name);
+        // In a real app, you’d add this to HotelDatabase.amenities
     }
-
-
-   public double getExtraPricePerNight() {
-    return extraPricePerNight;
-   }
-
-  public void setExtraPricePerNight(double extraPricePerNight) {
-        if (extraPricePerNight < 0) {
-            throw new IllegalArgumentException("Amenity extra price cannot be negative.");
-        }
-        this.extraPricePerNight = extraPricePerNight;
-    }
-
-    
 
     @Override
-    public String toString() {
-        return "Amenity{name='" + name + "', extraPricePerNight=" + extraPricePerNight + "}";
+    public void update() {
+        System.out.println("Amenity updated: " + name);
+        // In a real app, you’d update the record in HotelDatabase
+    }
+
+    @Override
+    public void delete() {
+        System.out.println("Amenity deleted: " + name);
+        // In a real app, you’d remove this from HotelDatabase.amenities
     }
 }
