@@ -151,7 +151,7 @@ public class Guest{
     public void cancelReservation(Reservation reservation) {
     if (reservations.remove(reservation)) {
         reservation.setStatus(ReservationStatus.CANCELLED);
-        reservation.getRoom().setIsAvailable(true);
+        reservation.getRoom().setAvailable(true);
     } else {
         System.out.println("Reservation " + reservation + " not found.");
     }
