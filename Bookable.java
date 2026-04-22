@@ -1,5 +1,5 @@
 public interface Bookable {
-    void reserve(Reservation r);   
-    void cancel(String id);        
-    boolean checkAvailability();   
+    void reserve(Reservation r) throws RoomNotAvailableException;   
+    void cancel(String id) throws RoomNotAvailableException;        
+    boolean checkAvailability() throws RoomNotAvailableException;   
 }

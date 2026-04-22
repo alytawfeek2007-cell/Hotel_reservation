@@ -21,16 +21,16 @@ public class RoomType implements Bookable {
         System.out.println("Room has been successfully booked.");
     }
 
-    // --- Bookable interface methods ---
-    @Override
-    public void reserve(Reservation r) throws RoomNotAvailableException {
-        if (isOccupied) {
-            throw new RoomNotAvailableException("Room type is already occupied.");
-        }
-        this.isOccupied = true;
-        r.confirm(); // mark reservation as confirmed
-        System.out.println("Reservation confirmed for room type: " + description);
+   @Override
+public void reserve(Reservation r) throws RoomNotAvailableException {
+    if (isOccupied) {
+        throw new RoomNotAvailableException("Room type is already occupied.");
     }
+    this.isOccupied = true;
+   r.confirm(); 
+    System.out.println("Reservation confirmed for room type: " + description);
+}
+
 
     @Override
     public void cancel(String id) {

@@ -1,21 +1,19 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Invoice implements Payable {
 
     private final String invoiceId;
     private static int idCounter = 1;
-
+    private double balance;
     
     private final double totalAmount;     // fixed at creation, never changes
     private double paidAmount;
 
     
-    private final List<PaymentMethod> paymentMethods;
+    private List<PaymentMethod> paymentMethods;
     private LocalDate paymentDate;        // date of the most recent payment
 
 
@@ -47,7 +45,7 @@ public class Invoice implements Payable {
     }
 
 
-
+    
     public void pay(double amount, PaymentMethod method) {
             if (method == null)
                 throw new IllegalArgumentException("Payment method cannot be null.");
@@ -99,7 +97,7 @@ public String toString() {
 
 
     // --- Payable interface methods ---
-    /* 
+    
     @Override
     public void pay(double amount) {
         if (amount <= 0) {
@@ -126,5 +124,5 @@ public String toString() {
             throw new IllegalArgumentException("Payment methods list cannot be null.");
         }
         this.paymentMethods = paymentMethods;
-    } */
+    } 
 }

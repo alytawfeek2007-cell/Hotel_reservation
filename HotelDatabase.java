@@ -1,6 +1,6 @@
 
-import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class HotelDatabase {
     private static ArrayList<Guest> guests = new ArrayList<>();
@@ -80,15 +80,15 @@ public class HotelDatabase {
             addGuest(g1);
             addGuest(g2);
 
-            RoomType suiteType = new RoomType("Luxury Suite", 4, 250.0);
-            RoomType singleType = new RoomType("Single Cozy", 1, 85.0);
+           RoomType suiteType  = new RoomType(1, "Luxury Suite", 250.0, true);
+RoomType singleType = new RoomType(2, "Single Cozy", 85.0, true);
 
             Room r101 = new Room("101", suiteType);
             Room r202 = new Room("202", singleType);
             addRoom(r101);
             addRoom(r202);
 
-            Reservation res1 = new Reservation(g1, r101, LocalDate.now(), LocalDate.now().plusDays(3), ReservationStatus.CONFIRMED);
+            Reservation res1 = new Reservation(g1, r101, LocalDate.now(), LocalDate.now().plusDays(3));
             addReservation(res1);
 
             Invoice inv1 = new Invoice(750.0);
