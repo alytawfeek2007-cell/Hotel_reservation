@@ -78,7 +78,7 @@ public class Room {
     public double getTotalPricePerNight() {
         double total = type.getPricePerNight();
         for (Amenity amenity : amenities) {
-            total += amenity.getExtraPricePerNight();
+            total += amenity.getPrice();
         }
         return total;
     }

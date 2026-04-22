@@ -3,6 +3,7 @@ public class RoomType implements Bookable {
     private String description;
     private double pricePerNight;
     private boolean isOccupied = false;
+    private String typeName; 
 
     public RoomType(int capacity, String description, double pricePerNight, boolean isOccupied) {
         this.capacity = capacity;
@@ -65,5 +66,13 @@ public class RoomType implements Bookable {
             throw new InvalidPaymentException("Price per night cannot be negative. Attempted: " + pricePerNight);
         }
         this.pricePerNight = pricePerNight;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String name) {
+        this.typeName = name;
     }
 }
