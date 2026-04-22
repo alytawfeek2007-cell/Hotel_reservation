@@ -86,7 +86,7 @@ public class Room {
 
      @Override
     public String toString() {
-        return "Room{roomNumber='" + roomNumber + "', roomType=" + type.getTypeName() +
+        return "Room{roomNumber='" + roomNumber + "', roomType=" + getRoomType()+
                 ", available=" + isAvailable + ", totalPricePerNight=" + getTotalPricePerNight() + "}";
     }
 }
