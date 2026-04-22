@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
 
 public class Reservation {
 
@@ -137,12 +136,7 @@ public class Reservation {
                 ". Required status: " + required + ".");
     }
 
-    private void requireStatus(ReservationStatus required, String operation) {
-    if (status != required)
-        throw new IllegalStateException(
-            "Cannot " + operation + " a reservation with status " + status +
-            ". Required status: " + required + ".");
-}
+   
 
     @Override
         public String toString() {

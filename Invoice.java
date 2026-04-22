@@ -72,13 +72,7 @@ public class Invoice implements Payable {
 
 
 
-    public void setTotalAmount(double totalAmount) {
-        if (totalAmount < 0) {
-            throw new IllegalArgumentException("Invoice total amount cannot be negative.");
-        }
-        this.totalAmount = totalAmount;
-        this.balance = totalAmount; // reset balance if amount changes
-    }
+    
 
 
 
@@ -105,6 +99,7 @@ public String toString() {
 
 
     // --- Payable interface methods ---
+    /* 
     @Override
     public void pay(double amount) {
         if (amount <= 0) {
@@ -131,5 +126,5 @@ public String toString() {
             throw new IllegalArgumentException("Payment methods list cannot be null.");
         }
         this.paymentMethods = paymentMethods;
-    }
+    } */
 }
