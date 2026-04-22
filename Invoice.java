@@ -68,7 +68,16 @@ public class Invoice implements Payable {
 
 
 
+        public void setPaymentDate(LocalDate paymentDate) {
+                this.paymentDate = paymentDate;
+            }
 
+            public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
+                if (paymentMethods == null) {
+                    throw new IllegalArgumentException("Payment methods list cannot be null.");
+                }
+                this.paymentMethods = paymentMethods;
+            } 
 
     
 
@@ -100,29 +109,12 @@ public String toString() {
     
     @Override
     public void pay(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Payment must be positive.");
-        }
-        if (amount > balance) {
-            throw new IllegalArgumentException("Payment exceeds remaining balance.");
-        }
-        balance -= amount;
-        paymentDate = LocalDate.now();
+        pay(amount, PaymentMethod.CASH); // delegates to the full method
     }
-
     @Override
     public double getBalance() {
         return balance;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
-        if (paymentMethods == null) {
-            throw new IllegalArgumentException("Payment methods list cannot be null.");
-        }
-        this.paymentMethods = paymentMethods;
-    } 
+    
 }

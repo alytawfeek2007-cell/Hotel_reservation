@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Admin extends Staff {
 
-    public Admin(String username,String Password,LocalDate dateOfBirth, Role role, int workingHours){
-        super(username, Password, dateOfBirth, role, workingHours);
+    public Admin(String username,String Password,LocalDate dateOfBirth, int workingHours){
+        super(username, Password, dateOfBirth,Role.ADMIN, workingHours);
     }
      public void addRoom(List<Room> rooms, Room room) {
         rooms.add(room);

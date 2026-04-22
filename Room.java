@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-public class Room {
+public class Room implements Bookable{
     private RoomType type;
     private ArrayList<Amenity> amenities=new ArrayList<>();
     private String roomNumber;
@@ -88,6 +88,26 @@ public class Room {
     public String toString() {
         return "Room{roomNumber='" + roomNumber + "', roomType=" + getRoomType()+
                 ", available=" + isAvailable + ", totalPricePerNight=" + getTotalPricePerNight() + "}";
+    }
+
+
+    @Override
+    public void reserve(Reservation r) throws RoomNotAvailableException {
+        if (!isAvailable)
+            throw new RoomNotAvailableException("Room " + roomNumber + " is not available.");
+        this.isAvailable = false;
+        System.out.println("Room " + roomNumber + " reserved for guest " + r.getGuest().getUsername());
+    }
+
+    @Override
+    public void cancel(String id) throws RoomNotAvailableException {
+        this.isAvailable = true;
+        System.out.println("Reservation " + id + " cancelled. Room " + roomNumber + " is now available.");
+    }
+
+    @Override
+    public boolean checkAvailability() throws RoomNotAvailableException {
+        return isAvailable;
     }
 }
 

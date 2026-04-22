@@ -3,6 +3,12 @@ public class Amenity implements Manageable {
     private String description;
     private double price;
 
+    public Amenity(String name, String description, double price) throws InvalidPaymentException {
+    this.name = name;
+    this.description = description;
+    this.setPrice(price);
+    }
+
     public String getName() {
         return name;
     }

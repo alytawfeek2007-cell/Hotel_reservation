@@ -114,7 +114,7 @@ public abstract class Staff {
     } else {
          System.out.println("All reservations:");
             for (Reservation res : reservations)
-            System.out.println(" Guest: " + res.getGuest().getUsername() +"  Room: " + res.getRoom().getRoomNumber() +" Check-in: " + res.getCheckInDate() +" Check-out: " + res.getCheckOutDate() +" Status: " + res.getStatus());
+            System.out.println(res);
     }
 
 }

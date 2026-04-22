@@ -27,6 +27,8 @@ public class Guest{
             throw new IllegalArgumentException("Username cannot be empty or null.");
         if (password == null || password.length() < 6)
             throw new IllegalArgumentException("Password must be at least 6 characters.");
+        this.username = username;  
+        this.password = password;
         this.dateOfBirth = dateOfBirthParam;
         this.balance = balance;
         this.address = address;
@@ -152,7 +154,7 @@ public class Guest{
     public void cancelReservation(Reservation reservation) {
     if (reservations.remove(reservation)) {
         reservation.cancel();
-        reservation.getRoom().setAvailable(true);
+        
     } else {
         System.out.println("Reservation " + reservation + " not found.");
     }

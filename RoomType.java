@@ -1,47 +1,21 @@
-public class RoomType implements Bookable {
+public class RoomType  {
     private int capacity;
     private String description;
     private double pricePerNight;
-    private boolean isOccupied = false;
     private String typeName; 
 
-    public RoomType(int capacity, String description, double pricePerNight, boolean isOccupied) {
+    public RoomType(int capacity, String description, double pricePerNight, String typeName) {
         this.capacity = capacity;
         this.description = description;
         this.pricePerNight = pricePerNight;
-        this.isOccupied = isOccupied;
+       
+        this.typeName=typeName;
     }
 
     // Existing method
-    public void bookRoom() throws RoomNotAvailableException {
-        if (this.isOccupied) {
-            throw new RoomNotAvailableException("Room is already occupied.");
-        }
-        this.isOccupied = true;
-        System.out.println("Room has been successfully booked.");
-    }
+   
 
-   @Override
-public void reserve(Reservation r) throws RoomNotAvailableException {
-    if (isOccupied) {
-        throw new RoomNotAvailableException("Room type is already occupied.");
-    }
-    this.isOccupied = true;
-   r.confirm(); 
-    System.out.println("Reservation confirmed for room type: " + description);
-}
-
-
-    @Override
-    public void cancel(String id) {
-        this.isOccupied = false;
-        System.out.println("Reservation " + id + " cancelled. Room type is now available.");
-    }
-
-    @Override
-    public boolean checkAvailability() {
-        return !isOccupied;
-    }
+   
 
     // Getters and setters
     public int getCapacity() {
@@ -74,5 +48,11 @@ public void reserve(Reservation r) throws RoomNotAvailableException {
 
     public void setTypeName(String name) {
         this.typeName = name;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomType{name='" + typeName + "', capacity=" + capacity +
+                ", pricePerNight=" + pricePerNight + "}";
     }
 }

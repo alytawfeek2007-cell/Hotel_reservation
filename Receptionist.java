@@ -1,20 +1,17 @@
 import java.time.LocalDate;
 
 public class Receptionist extends Staff{
-    public Receptionist(String username,String Password,LocalDate dateOfBirth, Role role, int workingHours){
-        super(username, Password, dateOfBirth, role, workingHours);
+    public Receptionist(String username,String Password,LocalDate dateOfBirth, int workingHours){
+        super(username, Password, dateOfBirth, Role.RECEPTIONIST, workingHours);
     }
 
-     public void checkIn(Guest guest, Room room, LocalDate checkInDate) {
-        if (!room.isAvailable()) {
-            System.out.println("Room " + room.getRoomNumber() + " is not available.");
-            return;
-        }
-        room.setAvailable(false);
-        System.out.println("Guest " + guest.getUsername() +" checked into room " + room.getRoomNumber() +" on " + checkInDate);
-
-
-    }
+    public void checkIn(Guest guest, Room room, LocalDate checkInDate, LocalDate checkOutDate) 
+                    throws RoomNotAvailableException {
+        Reservation res = new Reservation(guest, room, checkInDate, checkOutDate);
+        res.confirm(); 
+        guest.makeReservation(res);
+        System.out.println("Guest " + guest.getUsername() + " checked in to room " + room.getRoomNumber());
+}
 
     public void checkOut(Guest guest, Room room, LocalDate checkOutDate) {
         room.setAvailable(true);
