@@ -1,12 +1,12 @@
 public class RoomType  {
     private int capacity;
-    private String description;
+    
     private double pricePerNight;
     private String typeName; 
 
-    public RoomType(int capacity, String description, double pricePerNight, String typeName) {
+    public RoomType(int capacity,  String typeName, double pricePerNight) {
         this.capacity = capacity;
-        this.description = description;
+        
         this.pricePerNight = pricePerNight;
        
         this.typeName=typeName;
@@ -25,12 +25,7 @@ public class RoomType  {
         this.capacity = capacity;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    
 
     public double getPricePerNight() {
         return pricePerNight;

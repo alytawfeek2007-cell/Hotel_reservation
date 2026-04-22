@@ -8,7 +8,6 @@ public class Receptionist extends Staff{
     public void checkIn(Guest guest, Room room, LocalDate checkInDate, LocalDate checkOutDate) 
                     throws RoomNotAvailableException {
         Reservation res = new Reservation(guest, room, checkInDate, checkOutDate);
-        res.confirm(); 
         guest.makeReservation(res);
         System.out.println("Guest " + guest.getUsername() + " checked in to room " + room.getRoomNumber());
 }

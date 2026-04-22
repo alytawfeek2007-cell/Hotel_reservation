@@ -7,7 +7,7 @@ public class Invoice implements Payable {
 
     private final String invoiceId;
     private static int idCounter = 1;
-    private double balance;
+    
     
     private final double totalAmount;     // fixed at creation, never changes
     private double paidAmount;
@@ -113,7 +113,7 @@ public String toString() {
     }
     @Override
     public double getBalance() {
-        return balance;
+        return getRemainingAmount();
     }
 
     

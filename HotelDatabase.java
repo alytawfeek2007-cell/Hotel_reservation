@@ -80,8 +80,8 @@ public class HotelDatabase {
             addGuest(g1);
             addGuest(g2);
 
-           RoomType suiteType  = new RoomType(1, "Luxury Suite", 250.0, "Single");
-           RoomType singleType = new RoomType(2, "Single Cozy", 85.0, "Double");
+           RoomType suiteType  = new RoomType(1, "Single", 250.0 );
+           RoomType singleType = new RoomType(2, "Double", 85.0 );
 
             Room r101 = new Room("101", suiteType);
             Room r202 = new Room("202", singleType);

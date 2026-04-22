@@ -134,8 +134,12 @@ public class Guest{
     }
 
    public void makeReservation(Reservation reservation) {
-    reservation.confirm();
-    reservations.add(reservation);
+    if (reservation.getStatus() == ReservationStatus.PENDING) {
+        reservation.confirm(); // only confirm if still PENDING
+    }
+    if (!reservations.contains(reservation)) {
+        reservations.add(reservation); // only add if not already in list
+    }
     System.out.println("Reservation made for room " + 
                        reservation.getRoom().getRoomNumber());
 }
