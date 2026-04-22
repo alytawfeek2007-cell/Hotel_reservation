@@ -1,44 +1,148 @@
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Reservation {
 
-    private Guest guest;              // Guest reference
-    private Room room;                // Room reference
-    private LocalDate checkInDate;    // Check-in date
-    private LocalDate checkOutDate;   // Check-out date
-    private ReservationStatus status; // Reservation status
+    private final String reservationId;
+    private static int idCounter = 1;
+
+   
+    private final Guest guest;
+    private final Room  room;
+
+  
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+
+ 
+    private ReservationStatus status;
+
+    
+    private Invoice invoice;
+
 
     public Reservation(Guest guest, Room room,
                        LocalDate checkInDate, LocalDate checkOutDate) {
 
-        this.guest = guest;
-        this.room = room;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.status = ReservationStatus.PENDING;
+        if (guest == null) throw new IllegalArgumentException("Guest cannot be null.");
+        if (room  == null) throw new IllegalArgumentException("Room cannot be null.");
+        validateDates(checkInDate, checkOutDate);
+
+        this.reservationId = "RES-" + String.format("%04d", idCounter++);
+        this.guest         = guest;
+        this.room          = room;
+        this.checkInDate   = checkInDate;
+        this.checkOutDate  = checkOutDate;
+        this.status        = ReservationStatus.PENDING;
     }
 
-    // Getters
-    public Guest getGuest() { return guest; }
-    public Room getRoom() { return room; }
-    public LocalDate getCheckInDate() { return checkInDate; }
-    public LocalDate getCheckOutDate() { return checkOutDate; }
-    public ReservationStatus getStatus() { return status; }
+    public String            getReservationId() { return reservationId; }
+    public Guest             getGuest()         { return guest; }
+    public Room              getRoom()          { return room; }
+    public LocalDate         getCheckInDate()   { return checkInDate; }
+    public LocalDate         getCheckOutDate()  { return checkOutDate; }
+    public ReservationStatus getStatus()        { return status; }
+    public Invoice           getInvoice()       { return invoice; }
+
+       public void setCheckInDate(LocalDate checkInDate) {
+        requireStatus(ReservationStatus.PENDING, "change check-in date");
+        if (checkInDate == null)
+            throw new IllegalArgumentException("Check-in date cannot be null.");
+        if (!checkInDate.isBefore(this.checkOutDate))
+            throw new IllegalArgumentException("Check-in must be before check-out.");
+        this.checkInDate = checkInDate;
+    }
+
+    public void setCheckOutDate(LocalDate checkOutDate) {
+        requireStatus(ReservationStatus.PENDING, "change check-out date");
+        if (checkOutDate == null)
+            throw new IllegalArgumentException("Check-out date cannot be null.");
+        if (!this.checkInDate.isBefore(checkOutDate))
+            throw new IllegalArgumentException("Check-out must be after check-in.");
+        this.checkOutDate = checkOutDate;
+    }
+
+
+
 
     public void confirm() {
-        if (status != ReservationStatus.PENDING) return;
-        this.status = ReservationStatus.CONFIRMED;
-    }
+            requireStatus(ReservationStatus.PENDING, "confirm");
+            try {
+                room.bookRoom();
+            } catch (RoomNotAvailableException e) {
+                throw new IllegalStateException("Cannot confirm: " + e.getMessage(), e);
+            }
+            this.status  = ReservationStatus.CONFIRMED;
+            this.invoice = new Invoice(calculateTotalCost());
+            System.out.println(reservationId + " confirmed. Invoice: $" + invoice.getTotalAmount());
+        }
 
-    public void cancel() {
-        if (status == ReservationStatus.COMPLETED) return;
+     public void cancel() {
+        if (status == ReservationStatus.COMPLETED || status == ReservationStatus.CANCELLED) {
+            throw new IllegalStateException(
+                "Cannot cancel a reservation that is already " + status + ".");
+        }
+        if (status == ReservationStatus.CONFIRMED) {
+            room.setAvailable(true);
+        }
         this.status = ReservationStatus.CANCELLED;
-    }
+        System.out.println(reservationId + " cancelled.");
+    }   
 
     public void complete() {
-        if (status != ReservationStatus.CONFIRMED) return;
-        this.status = ReservationStatus.COMPLETED;
+            requireStatus(ReservationStatus.CONFIRMED, "complete");
+            if (invoice != null && !invoice.isFullyPaid()) {
+                throw new IllegalStateException(
+                    "Cannot complete reservation: invoice is not fully paid.");
+            }
+            room.setAvailable(true);
+            this.status = ReservationStatus.COMPLETED;
+            System.out.println(reservationId + " completed.");
+        }
+
+
+
+
+     public void reschedule(LocalDate newCheckIn, LocalDate newCheckOut) {
+        requireStatus(ReservationStatus.PENDING, "reschedule");
+        validateDates(newCheckIn, newCheckOut);
+        this.checkInDate  = newCheckIn;
+        this.checkOutDate = newCheckOut;
+        System.out.println(reservationId + " rescheduled to " + newCheckIn + " → " + newCheckOut);
     }
+
+    public long getNumberOfNights() {
+        return ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+    }
+
+    public double calculateTotalCost() {
+        return room.getTotalPricePerNight() * getNumberOfNights();
+    }
+
+
+
+    private void validateDates(LocalDate checkIn, LocalDate checkOut) {
+        if (checkIn  == null) throw new IllegalArgumentException("Check-in date cannot be null.");
+        if (checkOut == null) throw new IllegalArgumentException("Check-out date cannot be null.");
+        if (!checkIn.isBefore(checkOut))
+            throw new IllegalArgumentException(
+                "Check-in (" + checkIn + ") must be before check-out (" + checkOut + ").");
+    }
+
+     private void requireStatus(ReservationStatus required, String operation) {
+        if (status != required)
+            throw new IllegalStateException(
+                "Cannot " + operation + " a reservation with status " + status +
+                ". Required status: " + required + ".");
+    }
+
+    private void requireStatus(ReservationStatus required, String operation) {
+    if (status != required)
+        throw new IllegalStateException(
+            "Cannot " + operation + " a reservation with status " + status +
+            ". Required status: " + required + ".");
+}
 
     @Override
         public String toString() {
@@ -50,4 +154,11 @@ public class Reservation {
                 " | status=" + status +
                 '}';
         }
-}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Reservation)) return false;
+        return reservationId.equals(((Reservation) o).reservationId);
+    }
+    }
