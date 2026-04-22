@@ -7,22 +7,32 @@ public class Room {
     private String roomNumber;
     private boolean isAvailable = true;
 
-    public Room(String roomNumber, RoomType type) {
-    this.roomNumber = roomNumber;
-    this.type = type;
-    this.amenities = new ArrayList<>();
+     public Room(String roomNumber, RoomType roomType) {
+        setRoomNumber(roomNumber);
+        setRoomType(roomType);
+        this.amenities = new ArrayList<>();
+        this.isAvailable = true;
     }
 
-    public RoomType getType() {
+    public RoomType getRoomType() {
         return type;
+    }   
+    public void setRoomType(RoomType roomType) {
+        if (roomType == null) {
+            throw new IllegalArgumentException("Room type cannot be null.");
+        }
+        this.type = roomType;
     }
-    public void setType(RoomType type) {
-        this.type = type;
-    }
+
     public ArrayList<Amenity> getAmenities() {
+
         return amenities;
     }
+
     public void setAmenities(ArrayList<Amenity> amenities) {
+         if (amenities == null) {
+            throw new IllegalArgumentException("Amenities list cannot be null.");
+        }
         this.amenities = amenities;
     }
 
@@ -30,25 +40,55 @@ public class Room {
         return roomNumber;
     }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+   public void setRoomNumber(String roomNumber) {
+        if (roomNumber == null || roomNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("Room number cannot be empty.");
+        }
+        this.roomNumber = roomNumber.trim();
     }
 
-    public boolean IsAvailable() {
+    public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
+    public void setAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
-    @Override
+    public void bookRoom() throws RoomNotAvailableException {
+        if (!isAvailable) {
+            throw new RoomNotAvailableException("Room " + roomNumber + " is already occupied.");
+        }
+        this.isAvailable = false;
+        System.out.println("Room " + roomNumber + " has been successfully booked.");
+    }
+
+    public void addAmenity(Amenity amenity) {
+        if (amenity == null) {
+            throw new IllegalArgumentException("Amenity cannot be null.");
+        }
+        amenities.add(amenity);
+    }
+    
+    public boolean removeAmenityByName(String amenityName) {
+        if (amenityName == null || amenityName.trim().isEmpty()) return false;
+        return amenities.removeIf(a -> a.getName().equalsIgnoreCase(amenityName.trim()));
+    }
+
+    public double getTotalPricePerNight() {
+        double total = type.getPricePerNight();
+        for (Amenity amenity : amenities) {
+            total += amenity.getExtraPricePerNight();
+        }
+        return total;
+    }
+    
+
+     @Override
     public String toString() {
-    return "Room{" +
-            "roomNumber='" + roomNumber + '\'' +
-            " | type=" + type.gettypeName() +
-            " | pricePerNight=$" + type.getPricePerNight() +
-            " | available=" + isAvailable +
-            '}';
+        return "Room{roomNumber='" + roomNumber + "', roomType=" + type.getTypeName() +
+                ", available=" + isAvailable + ", totalPricePerNight=" + getTotalPricePerNight() + "}";
     }
 }
+
+
