@@ -1,54 +1,69 @@
-public class RoomType {
-   private int capacity;
-   private String typeName;
-   private double pricePerNight;
-    
+public class RoomType implements Bookable {
+    private int capacity;
+    private String description;
+    private double pricePerNight;
+    private boolean isOccupied = false;
 
-    public RoomType(String typeName, int capacity, double pricePerNight) {
-        setTypeName(typeName);
-        setCapacity(capacity);
-        setPricePerNight(pricePerNight);
+    public RoomType(int capacity, String description, double pricePerNight, boolean isOccupied) {
+        this.capacity = capacity;
+        this.description = description;
+        this.pricePerNight = pricePerNight;
+        this.isOccupied = isOccupied;
     }
 
- 
-
-   public int getCapacity() {
-    return capacity;
-   }
-
-   public void setCapacity(int capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("Capacity must be greater than 0.");
+    // Existing method
+    public void bookRoom() throws RoomNotAvailableException {
+        if (this.isOccupied) {
+            throw new RoomNotAvailableException("Room is already occupied.");
         }
+        this.isOccupied = true;
+        System.out.println("Room has been successfully booked.");
+    }
+
+    // --- Bookable interface methods ---
+    @Override
+    public void reserve(Reservation r) throws RoomNotAvailableException {
+        if (isOccupied) {
+            throw new RoomNotAvailableException("Room type is already occupied.");
+        }
+        this.isOccupied = true;
+        r.confirm(); // mark reservation as confirmed
+        System.out.println("Reservation confirmed for room type: " + description);
+    }
+
+    @Override
+    public void cancel(String id) {
+        this.isOccupied = false;
+        System.out.println("Reservation " + id + " cancelled. Room type is now available.");
+    }
+
+    @Override
+    public boolean checkAvailability() {
+        return !isOccupied;
+    }
+
+    // Getters and setters
+    public int getCapacity() {
+        return capacity;
+    }
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getDescription() {
+        return description;
     }
-
-    public void setTypeName(String typeName) {
-        if (typeName == null || typeName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Room type name cannot be empty.");
-        }
-        this.typeName = typeName.trim();
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getPricePerNight() {
         return pricePerNight;
     }
-
-
- public void setPricePerNight(double pricePerNight) {
+    public void setPricePerNight(double pricePerNight) throws InvalidPaymentException {
         if (pricePerNight < 0) {
-            throw new IllegalArgumentException("Price per night cannot be negative.");
+            throw new InvalidPaymentException("Price per night cannot be negative. Attempted: " + pricePerNight);
         }
         this.pricePerNight = pricePerNight;
     }
-
- @Override
-    public String toString() {
-        return "RoomType{name='" + typeName + "', capacity=" + capacity + ", pricePerNight=" + pricePerNight + "}";
-    }
 }
-
