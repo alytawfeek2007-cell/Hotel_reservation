@@ -23,4 +23,4 @@ public class Receptionist extends Staff{
                 " on " + checkOutDate);
     }
 }
-}
+

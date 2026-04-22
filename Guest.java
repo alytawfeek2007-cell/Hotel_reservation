@@ -16,15 +16,17 @@ public class Guest{
     private String address;
     private Gender gender; 
     private List<String> roomPreferences;
-    private List<String> reservations = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Guest() {
         this.roomPreferences = new ArrayList<>();
     }
 
     public Guest(String username, String password, LocalDate dateOfBirthParam, double balance, String address, Gender gender)  {
-        this.setUsername(username);
-        this.setPassword(password);
+       if (username == null || username.trim().isEmpty())
+            throw new IllegalArgumentException("Username cannot be empty or null.");
+        if (password == null || password.length() < 6)
+            throw new IllegalArgumentException("Password must be at least 6 characters.");
         this.dateOfBirth = dateOfBirthParam;
         this.balance = balance;
         this.address = address;
@@ -33,14 +35,7 @@ public class Guest{
     }
 
     public Guest(String username, String password, LocalDate dateOfBirthParam, double balance, String address, Gender gender,String roomPreference)  {
-
-        this.setUsername(username);
-        this.setPassword(password);
-        this.dateOfBirth = dateOfBirthParam;
-        this.balance = balance;
-        this.address = address;
-        this.gender = gender;
-        this.roomPreferences = new ArrayList<>();
+        this(username, password, dateOfBirthParam, balance, address, gender);
         this.roomPreferences.add(roomPreference);
     }
 
@@ -125,40 +120,40 @@ public class Guest{
         return checking;
     }
     
-    public void viewAvailableRooms(List<String> availableRooms) {
+    public void viewAvailableRooms(List<Room> availableRooms) {
         if (availableRooms == null || availableRooms.isEmpty()) {
         System.out.println("No rooms are currently available.");
         } else {
             System.out.println("Available rooms:");
-        for (String room : availableRooms) {
+        for (Room room : availableRooms) {
             System.out.println("Room number: " + room);
         }
     }
     }
 
-    public void makeReservation(String roomNumber, LocalDate checkIn, LocalDate checkOut) {
-
-        String reservationId = roomNumber + "_" + checkIn + "_" + checkOut;
-        reservations.add(reservationId);
-        System.out.println("Reservation made: " + reservationId);
-    }
+   public void makeReservation(Reservation reservation) {
+    reservations.add(reservation);
+    System.out.println("Reservation made for room " + 
+                       reservation.getRoom().getRoomNumber());
+}
 
      public void viewReservations() {
         if (reservations == null || reservations.isEmpty()) {
             System.out.println("You have no current reservations.");
         } else {
             System.out.println("Your reservations:");
-            for (String res : reservations) {
+            for (Reservation res : reservations) {
                 System.out.println("Reservation available: " + res);
             }
         }
     }
 
-    public void cancelReservation(String reservationId) {
-    if (reservations.remove(reservationId)) {
-        System.out.println("Reservation " + reservationId + " has been cancelled.");
+    public void cancelReservation(Reservation reservation) {
+    if (reservations.remove(reservation)) {
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservation.getRoom().setIsAvailable(true);
     } else {
-        System.out.println("Reservation " + reservationId + " not found.");
+        System.out.println("Reservation " + reservation + " not found.");
     }
 }
 
@@ -170,4 +165,15 @@ public void checkoutAndPay(double amount) {
             System.out.println("Insufficient balance. Payment failed.");
         }
     }
+    @Override
+public String toString() {
+    return "Guest{" +
+            "username='" + username + '\'' +
+            ", dateOfBirth=" + dateOfBirth +
+            ", balance=" + balance +
+            ", address='" + address + '\'' +
+            ", gender=" + gender +
+            ", roomPreferences=" + roomPreferences +
+            '}';
+}
 }

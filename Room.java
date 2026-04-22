@@ -42,4 +42,13 @@ public class Room {
         this.isAvailable = isAvailable;
     }
 
+    @Override
+    public String toString() {
+    return "Room{" +
+            "roomNumber='" + roomNumber + '\'' +
+            " | type=" + type.gettypeName() +
+            " | pricePerNight=$" + type.getPricePerNight() +
+            " | available=" + isAvailable +
+            '}';
+    }
 }
