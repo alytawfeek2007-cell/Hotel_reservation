@@ -6,18 +6,18 @@ public class Receptionist extends Staff{
     }
 
      public void checkIn(Guest guest, Room room, LocalDate checkInDate) {
-        if (!room.IsAvailable()) {
+        if (!room.isAvailable()) {
             System.out.println("Room " + room.getRoomNumber() + " is not available.");
             return;
         }
-        room.setIsAvailable(false);
+        room.setAvailable(false);
         System.out.println("Guest " + guest.getUsername() +" checked into room " + room.getRoomNumber() +" on " + checkInDate);
 
 
     }
 
     public void checkOut(Guest guest, Room room, LocalDate checkOutDate) {
-        room.setIsAvailable(true);
+        room.setAvailable(true);
         System.out.println("Guest " + guest.getUsername() +
                 " checked out of room " + room.getRoomNumber() +
                 " on " + checkOutDate);
