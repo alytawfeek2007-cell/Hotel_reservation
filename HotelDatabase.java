@@ -91,8 +91,9 @@ public class HotelDatabase {
             Reservation res1 = new Reservation(g1, r101, LocalDate.now(), LocalDate.now().plusDays(3));
             addReservation(res1);
 
-            Invoice inv1 = new Invoice(750.0);
-            addInvoice(inv1);
+           
+           g1.makeReservation(res1); 
+            addReservation(res1);
         } catch (Exception e) {
             System.out.println("Pre-population error: " + e.getMessage());
         }
