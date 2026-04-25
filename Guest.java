@@ -135,10 +135,10 @@ public class Guest{
 
    public void makeReservation(Reservation reservation) {
     if (reservation.getStatus() == ReservationStatus.PENDING) {
-        reservation.confirm(); // only confirm if still PENDING
+        reservation.confirm(); 
     }
     if (!reservations.contains(reservation)) {
-        reservations.add(reservation); // only add if not already in list
+        reservations.add(reservation); 
     }
     System.out.println("Reservation made for room " + 
                        reservation.getRoom().getRoomNumber());
@@ -164,14 +164,29 @@ public class Guest{
     }
 }
 
-public void checkoutAndPay(double amount) {
-        if (this.balance >= amount) {
-            this.balance -= amount;
-            System.out.println("Payment of " + amount + " successful. Remaining balance: " + this.balance);
-        } else {
-            System.out.println("Insufficient balance. Payment failed.");
-        }
+public void checkoutAndPay(Reservation reservation, PaymentMethod method) {
+    if (!reservations.contains(reservation)) {
+        System.out.println("This reservation does not belong to you.");
+        return;
     }
+    Invoice inv = reservation.getInvoice();
+    if (inv == null) {
+        System.out.println("No invoice found for this reservation.");
+        return;
+    }
+    if (inv.isFullyPaid()) {
+        System.out.println("Invoice already fully paid.");
+        return;
+    }
+    double remaining = inv.getRemainingAmount();
+    if (this.balance >= remaining) {
+        this.balance -= remaining;
+        inv.pay(remaining, method);
+        System.out.println("Checkout complete. Remaining balance: $" + this.balance);
+    } else {
+        System.out.println("Insufficient balance. Need $" + remaining + " but have $" + this.balance);
+    }
+}
     @Override
 public String toString() {
     return "Guest{" +

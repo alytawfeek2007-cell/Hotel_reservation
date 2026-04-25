@@ -20,6 +20,8 @@ public class Reservation {
     
     private Invoice invoice;
 
+    private static final double DEPOSIT_RATE = 0.30;
+
 
     public Reservation(Guest guest, Room room,
                        LocalDate checkInDate, LocalDate checkOutDate) {
@@ -60,6 +62,14 @@ public class Reservation {
         if (!this.checkInDate.isBefore(checkOutDate))
             throw new IllegalArgumentException("Check-out must be after check-in.");
         this.checkOutDate = checkOutDate;
+    }
+
+    public double getDepositAmount() {
+        return calculateTotalCost() * DEPOSIT_RATE;
+    }
+
+    public double getRemainingAfterDeposit() {
+        return calculateTotalCost() - getDepositAmount();
     }
 
 
@@ -119,6 +129,18 @@ public class Reservation {
         return room.getTotalPricePerNight() * getNumberOfNights();
     }
 
+    public void payDeposit(PaymentMethod method) {
+        requireStatus(ReservationStatus.CONFIRMED, "pay deposit");
+        if (invoice == null)
+            throw new IllegalStateException("No invoice found.");
+        if (invoice.getPaidAmount() > 0)
+            throw new IllegalStateException("Deposit already paid.");
+
+        double deposit = getDepositAmount();
+        invoice.pay(deposit, method);
+        System.out.println("Deposit of $" + deposit + " paid. Remaining: $" + invoice.getRemainingAmount());
+    }
+
 
 
     private void validateDates(LocalDate checkIn, LocalDate checkOut) {
@@ -135,6 +157,7 @@ public class Reservation {
                 "Cannot " + operation + " a reservation with status " + status +
                 ". Required status: " + required + ".");
     }
+
 
    
 
