@@ -56,6 +56,14 @@ public class SceneManager {
     }
 
     private static void setScene(Scene scene) {
+        try {
+            scene.getStylesheets().add(
+                SceneManager.class
+                    .getResource("/css/styles.css")
+                    .toExternalForm());
+        } catch (Exception e) {
+            System.out.println("CSS not found, skipping.");
+        }
         stage.setScene(scene);
         stage.centerOnScreen();
     }

@@ -61,12 +61,25 @@ public abstract class Staff {
         return username;
     }
 
-    private String validatePassword(String password) {
-        if (password == null || password.length() < 6) {
-            throw new IllegalArgumentException("Password must be at least 6 characters long.");
-        }
-        return password;
-    }
+   private String validatePassword(String password) {
+    if (password == null || password.length() < 8)
+        throw new IllegalArgumentException(
+            "Password must be at least 8 characters.");
+    if (!password.matches(".*[A-Z].*"))
+        throw new IllegalArgumentException(
+            "Password must contain an uppercase letter.");
+    if (!password.matches(".*[a-z].*"))
+        throw new IllegalArgumentException(
+            "Password must contain a lowercase letter.");
+    if (!password.matches(".*[0-9].*"))
+        throw new IllegalArgumentException(
+            "Password must contain a number.");
+    if (!password.matches(
+            ".*[!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?].*"))
+        throw new IllegalArgumentException(
+            "Password must contain a special character.");
+    return password;
+}
 
     private LocalDate validateDateOfBirth(LocalDate dateOfBirth) {
         if (dateOfBirth == null || dateOfBirth.isAfter(LocalDate.now())) {

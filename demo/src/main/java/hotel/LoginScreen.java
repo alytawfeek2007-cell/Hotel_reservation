@@ -135,8 +135,8 @@ public class LoginScreen {
             } else {
                 // Staff login
                 if (username.equals("admin") 
-                        && password.equals("admin123")) {
-                    Admin admin = new Admin("admin", "admin123",
+                        && password.equals("Admin@123!")) {
+                    Admin admin = new Admin("admin", "Admin@123!",
                         java.time.LocalDate.of(1985, 1, 1), 40);
                     SceneManager.setCurrentStaff(admin);
                     SceneManager.showAdminDashboard();

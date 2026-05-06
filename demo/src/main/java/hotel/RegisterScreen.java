@@ -76,7 +76,7 @@ public class RegisterScreen {
         // Form fields
         TextField usernameField = styledField("Choose a username");
         PasswordField passwordField = styledPassField(
-            "At least 6 characters");
+            "Min 8 chars, uppercase, number, special char");
         PasswordField confirmField = styledPassField(
             "Repeat your password");
         TextField addressField = styledField("Your address");
@@ -140,9 +140,18 @@ public class RegisterScreen {
                 errorLabel.setText("Passwords do not match.");
                 return;
             }
-            if (password.length() < 6) {
+            if (password.length() < 8) {
                 errorLabel.setText(
-                    "Password must be at least 6 characters.");
+                    "Password must be at least 8 characters.");
+                return;
+            }
+            if (!password.matches(".*[A-Z].*") ||
+                !password.matches(".*[a-z].*") ||
+                !password.matches(".*[0-9].*") ||
+                !password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?].*")) {
+                errorLabel.setText(
+                    "Password needs uppercase, lowercase, " +
+                    "number and special character (!@#$...).");
                 return;
             }
             if (dob == null) {
