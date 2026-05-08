@@ -1,0 +1,55 @@
+/* Base font */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* Scroll pane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Tab pane */
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: #eef0f6;
+    -fx-padding: 8 20;
+}
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: #1a2744;
+}
+.tab-pane .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Separator */
+.separator .line {
+    -fx-border-color: #dde3f0;
+    -fx-border-width: 1;
+}
+
+/* Dialog */
+.dialog-pane {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* Slider */
+.slider .track {
+    -fx-background-color: #dde3f0;
+}
+.slider .thumb {
+    -fx-background-color: #c8a04a;
+}
+
+/* Tooltip */
+.tooltip {
+    -fx-background-color: #1a2744;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 6;
+}

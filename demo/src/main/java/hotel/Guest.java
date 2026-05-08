@@ -26,8 +26,7 @@ public class Guest{
     public Guest(String username, String password, LocalDate dateOfBirthParam, double balance, String address, Gender gender)  {
        if (username == null || username.trim().isEmpty())
             throw new IllegalArgumentException("Username cannot be empty or null.");
-        if (password == null || password.length() < 6)
-            throw new IllegalArgumentException("Password must be at least 6 characters.");
+        this.setPassword(password);
         this.username = username;  
         this.password = password;
         this.dateOfBirth = dateOfBirthParam;
@@ -57,12 +56,28 @@ public class Guest{
         return password;
     }
     public void setPassword(String password) {
-        if (password != null && password.length() >= 6) {
-            this.password = password;
-        } else {
-            throw new IllegalArgumentException("Password must be at least 6 characters long.");
-        }  
+    if (password == null || password.length() < 8) {
+        throw new IllegalArgumentException(
+            "Password must be at least 8 characters.");
     }
+    if (!password.matches(".*[A-Z].*")) {
+        throw new IllegalArgumentException(
+            "Password must contain at least one uppercase letter.");
+    }
+    if (!password.matches(".*[a-z].*")) {
+        throw new IllegalArgumentException(
+            "Password must contain at least one lowercase letter.");
+    }
+    if (!password.matches(".*[0-9].*")) {
+        throw new IllegalArgumentException(
+            "Password must contain at least one number.");
+    }
+    if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?].*")) {
+        throw new IllegalArgumentException(
+            "Password must contain at least one special character (!@#$%...).");
+    }
+    this.password = password;
+}
     
     public double getBalance() {
         return balance;
