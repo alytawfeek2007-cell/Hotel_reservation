@@ -143,19 +143,35 @@ public class RoomBrowsingScreen {
             loadRooms(null, Double.MAX_VALUE);
         });
 
-        panel.getChildren().addAll(
-            title, new Separator(),
-            typeLabel, typeFilter,
-            priceLabel, priceValue, priceSlider,
-            new Separator(),
-            applyBtn, resetBtn);
+        // Refresh button 
+        Button refreshBtn = new Button("🔄 Refresh Rooms");
+        refreshBtn.setMaxWidth(Double.MAX_VALUE);
+        refreshBtn.setStyle(
+            "-fx-background-color:#1a2744;" +
+            "-fx-text-fill:white;-fx-font-weight:bold;" +
+            "-fx-padding:10 22;-fx-background-radius:8;" +
+            "-fx-cursor:hand;");
+        refreshBtn.setOnAction(
+            e -> loadRooms(null, Double.MAX_VALUE));
+
+    // Add to panel children:
+    panel.getChildren().addAll(
+        title, new Separator(),
+        typeLabel, typeFilter,
+        priceLabel, priceValue, priceSlider,
+        new Separator(),
+        applyBtn, resetBtn, refreshBtn); // ← add refreshBtn here
+
+        
         return panel;
     }
 
     // ── Load and display rooms ────────────────────────────────────
+   
     private void loadRooms(String typeFilter, double maxPrice) {
         roomGrid.getChildren().clear();
 
+        // This now reads the LIVE list directly
         List<Room> rooms = HotelDatabase.getRooms()
             .stream()
             .filter(r -> typeFilter == null

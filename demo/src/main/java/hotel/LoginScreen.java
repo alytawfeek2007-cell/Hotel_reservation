@@ -157,7 +157,7 @@ public class LoginScreen {
             e -> SceneManager.showRegister());
 
         Label demoHint = new Label(
-            "Demo: Guest jdoe/pass123  |  Staff: admin/admin123");
+    "Demo: Guest ali/Ali#2025!  |  Staff: admin/Admin@123!");
         demoHint.setStyle(
             "-fx-font-size:10px;-fx-text-fill:#7a8599;");
 

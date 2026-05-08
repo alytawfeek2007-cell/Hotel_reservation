@@ -25,7 +25,7 @@ public class HotelDatabase {
     }
 
     public static ArrayList<Guest> getGuests() {
-        return new ArrayList<>(guests);
+        return guests;
     }
 
     public static void addRoom(Room room) throws InvalidUserDataException {
@@ -36,7 +36,10 @@ public class HotelDatabase {
     }
 
     public static ArrayList<Room> getRooms() {
-        return new ArrayList<>(rooms);
+        return rooms;
+    }
+    public static void removeRoom(Room room) {
+    rooms.remove(room);
     }
 
     public static void addReservation(Reservation reservation) throws RoomNotAvailableException {
@@ -56,7 +59,7 @@ public class HotelDatabase {
     }
 
     public static ArrayList<Reservation> getReservations() {
-        return new ArrayList<>(reservations);
+        return reservations;
     }
 
     public static void addInvoice(Invoice invoice) throws InvalidPaymentException {
